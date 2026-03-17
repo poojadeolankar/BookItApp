@@ -17,13 +17,7 @@ model User {
   bookings  Booking[]
 }
 
-// NEW
-enum BookingStatus {
-  ACTIVE
-  CANCELLED
-}
-
-// NEW
+// NEW — status values: ACTIVE | CANCELLED
 model Room {
   id       Int       @id @default(autoincrement())
   name     String
@@ -33,14 +27,14 @@ model Room {
 
 // NEW
 model Booking {
-  id        Int           @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   userId    Int
   roomId    Int
   date      String
   startTime String
   endTime   String
-  status    BookingStatus @default(ACTIVE)
-  createdAt DateTime      @default(now())
-  user      User          @relation(fields: [userId], references: [id])
-  room      Room          @relation(fields: [roomId], references: [id])
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  room      Room     @relation(fields: [roomId], references: [id])
 }
