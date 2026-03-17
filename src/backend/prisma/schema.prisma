@@ -9,11 +9,38 @@ datasource db {
 
 // PRE-BUILT — do not modify
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
   password  String
   name      String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  bookings  Booking[]
 }
 
-// All domain models are added during the workshop by agents
+// NEW
+enum BookingStatus {
+  ACTIVE
+  CANCELLED
+}
+
+// NEW
+model Room {
+  id       Int       @id @default(autoincrement())
+  name     String
+  capacity Int
+  bookings Booking[]
+}
+
+// NEW
+model Booking {
+  id        Int           @id @default(autoincrement())
+  userId    Int
+  roomId    Int
+  date      String
+  startTime String
+  endTime   String
+  status    BookingStatus @default(ACTIVE)
+  createdAt DateTime      @default(now())
+  user      User          @relation(fields: [userId], references: [id])
+  room      Room          @relation(fields: [roomId], references: [id])
+}
